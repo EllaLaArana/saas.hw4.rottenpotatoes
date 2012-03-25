@@ -29,21 +29,22 @@ class MoviesController < ApplicationController
       ordering,@date_header = {:order => :release_date}, 'hilite'
     end
     @all_ratings = Movie.all_ratings
-    @selected_ratings = params[:ratings] || session[:ratings] || {}
+    @selected_ratings = params[:ratings] || session[:ratings] || nil
 
     if params[:sort] != session[:sort]
       session[:sort] = sort
-      redirect_to :noDirector => @noDirector, :sort => sort, :ratings => @selected_ratings and return
+      redirect_to :sort => sort, :ratings => @selected_ratings and return
     end
 
-    if params[:ratings] != session[:ratings] and @selected_ratings != {}
+    if params[:ratings] != session[:ratings] and @selected_ratings != nil
       session[:sort] = sort
       session[:ratings] = @selected_ratings
-      redirect_to :noDirector => @noDirector, :sort => sort, :ratings => @selected_ratings and return
+      redirect_to :sort => sort, :ratings => @selected_ratings and return
     end
     
     @noDirector = session[:noDirector]
     session[:noDirector] = nil
+    @selected_ratings = @selected_ratings || {}
     @movies = Movie.find_all_by_rating(@selected_ratings.keys, ordering)
   end
 
