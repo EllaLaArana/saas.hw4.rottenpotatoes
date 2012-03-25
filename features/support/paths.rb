@@ -18,13 +18,16 @@ module NavigationHelpers
     case page_name
 
     when /^the home\s?page$/
-      '/'
+      '/movies'
     when /^the edit page for "(.*)"/
       id = movieId($1)
       "/movies/#{id}/edit"
     when /^the details page for "(.*)"/
       id = movieId($1)
-      "/movies/#{id}"  
+      "/movies/#{id}"
+    when /^the Similar Movies page for "(.*)"/
+      id = movieId($1)
+      "/movies/#{id}/similar"
       
 =begin
 When /the edit page for "(.*)"/ do |name|
